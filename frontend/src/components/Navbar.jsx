@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { navbarStyles } from "../assets/dummyStyles";
-import { Clock } from "lucide-react";
+import { BaggageClaim, Clock } from "lucide-react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 
 const navItems = [
@@ -67,6 +67,14 @@ const Navbar = () => {
                 </Link>
               );
             })}
+          </div>
+
+          {/* Right side */}
+          <div className={navbarStyles.rightActions}>
+            <Link to="/cart" className={navbarStyles.cartLink}>
+            <BaggageClaim className={navbarStyles.cartIcon}/>
+            </Link>
+
           </div>
         </div>
       </nav>
