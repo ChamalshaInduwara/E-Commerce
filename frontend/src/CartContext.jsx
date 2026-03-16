@@ -26,7 +26,11 @@ export function CartProvider({ children }) {
         });
     };
 
-
+    // To increase value of item in cart
+    const increament =(id) => {
+        setCart((prev) => 
+            prev.map((p) =>(p.id === id ? {...p, qty: p.qty + 1} : p)));
+    };
     return (
         <CartContext.Provider>
             {children}
