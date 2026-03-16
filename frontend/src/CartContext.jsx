@@ -75,10 +75,21 @@ export function CartProvider({ children }) {
 );
 
     return (
-        <CartContext.Provider>
+        <CartContext.Provider
+        value={{
+            cart,
+            addItem,
+            increament,
+            decreament,
+            removeItem,
+            clearCart,
+            totalItems,
+            totalPrice,   
+        }}
+        >
             {children}
         </CartContext.Provider>
-    )
+    );
 }
 
 export const useCart = () => useContext(CartContext);
