@@ -40,6 +40,11 @@ export function CartProvider({ children }) {
         .filter((p) => p.qty > 0) // Remove the item if qty = 0
     );
    };  
+
+   // To remove item immediately
+   const removeItem = (id) => {
+    setCart((prev) => prev.filter((p) => p.id !== id));
+   };
     return (
         <CartContext.Provider>
             {children}
