@@ -31,6 +31,15 @@ export function CartProvider({ children }) {
         setCart((prev) => 
             prev.map((p) =>(p.id === id ? {...p, qty: p.qty + 1} : p)));
     };
+
+    // To decrease the value if 0 then remove from cart
+   const decreament =(id) => {
+    setCart(
+        (prev) =>
+            prev.map((p) => (p.id === id ? {...p,qty: p.qty - 1} : p))
+        .filter((p) => p.qty > 0) // Remove the item if qty = 0
+    );
+   };  
     return (
         <CartContext.Provider>
             {children}
