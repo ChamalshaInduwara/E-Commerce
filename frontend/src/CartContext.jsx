@@ -45,6 +45,12 @@ export function CartProvider({ children }) {
    const removeItem = (id) => {
     setCart((prev) => prev.filter((p) => p.id !== id));
    };
+
+   // To clear cart
+   const clearCart = () => setCart([]);
+
+   // Helper function
+
     return (
         <CartContext.Provider>
             {children}
