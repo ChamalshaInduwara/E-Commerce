@@ -47,6 +47,9 @@ const BannerHome = () => {
 
             <span className={bannerHomeStyles.h1SpanYellow}>with each tick-tock</span>
           </h1>
+          <p className={bannerHomeStyles.subtext}>
+            Discover our exclusive collection of watches, where timeless elegance meets modern design. Find the perfect timepiece that reflects your unique style and makes every moment unforgettable.
+          </p>
 
         </div>
 
