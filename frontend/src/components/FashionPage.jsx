@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { watchOfferBannerStyles } from '../assets/dummyStyles';
-import F1 from '../assets/F1.png';
+import React, { useEffect, useState } from "react";
+import { watchOfferBannerStyles } from "../assets/dummyStyles";
+import F1 from "../assets/F1.png";
+import { Heart, Shield, Truck } from "lucide-react";
 
 const FashionPage = () => {
-      const [timeLeft, setTimeLeft] = useState({
+  const [timeLeft, setTimeLeft] = useState({
     Days: 2,
     Hours: 12,
     Minutes: 45,
@@ -40,55 +41,90 @@ const FashionPage = () => {
     return () => clearInterval(timer);
   }, []);
   return (
-   <div className={watchOfferBannerStyles.container}>
-    <div className={watchOfferBannerStyles.maxWidthContainer}>
+    <div className={watchOfferBannerStyles.container}>
+      <div className={watchOfferBannerStyles.maxWidthContainer}>
         <div className={watchOfferBannerStyles.banner}>
-            <div className={watchOfferBannerStyles.contentSection}>
-                <div className={watchOfferBannerStyles.decorativeLarge}></div>
-                    <div className={watchOfferBannerStyles.decorativeSmall}></div>
+          <div className={watchOfferBannerStyles.contentSection}>
+            <div className={watchOfferBannerStyles.decorativeLarge}></div>
+            <div className={watchOfferBannerStyles.decorativeSmall}></div>
 
-                    <div className={watchOfferBannerStyles.offerTag} 
-                    style={watchOfferBannerStyles.playfairFont}
-                    >
-                        Limited Time Offer
-                    </div>
-
-                    <h1 className={watchOfferBannerStyles.heading} style={watchOfferBannerStyles.playfairFont}>
-                        Premium{" "}
-                        <span className={watchOfferBannerStyles.headingAccent}>
-                            Luxury Watches
-                        </span>{" "}
-                        Collection
-                    </h1>
-
-                    <p className={watchOfferBannerStyles.description}>
-                        Discover our exclusive selection of premium timepieces with special dicounts upto 30% off. Elevate your style with precision craftmenship.
-                    </p>
-
-                    <div className={watchOfferBannerStyles.countdownGrid}>
-                        {Object.entries(timeLeft).map(([unit, value]) => (
-                            <div key={unit} className={watchOfferBannerStyles.countdownItem}>
-                                <div className={watchOfferBannerStyles.countdownValue}>
-                                    {String(value).padStart(2, '0')}
-                                </div>
-                                <div className={watchOfferBannerStyles.countdownLabel}>
-                                    {unit}
-
-                                </div>
-                            </div>
-                        ))}
-
-                    </div>
-
-
+            <div
+              className={watchOfferBannerStyles.offerTag}
+              style={watchOfferBannerStyles.playfairFont}
+            >
+              Limited Time Offer
             </div>
 
+            <h1
+              className={watchOfferBannerStyles.heading}
+              style={watchOfferBannerStyles.playfairFont}
+            >
+              Premium{" "}
+              <span className={watchOfferBannerStyles.headingAccent}>
+                Luxury Watches
+              </span>{" "}
+              Collection
+            </h1>
+
+            <p className={watchOfferBannerStyles.description}>
+              Discover our exclusive selection of premium timepieces with
+              special dicounts upto 30% off. Elevate your style with precision
+              craftmenship.
+            </p>
+
+            <div className={watchOfferBannerStyles.countdownGrid}>
+              {Object.entries(timeLeft).map(([unit, value]) => (
+                <div
+                  key={unit}
+                  className={watchOfferBannerStyles.countdownItem}
+                >
+                  <div className={watchOfferBannerStyles.countdownValue}>
+                    {String(value).padStart(2, "0")}
+                  </div>
+                  <div className={watchOfferBannerStyles.countdownLabel}>
+                    {unit}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Features */}
+            <div className={watchOfferBannerStyles.featuresContainer}>
+              <div className={watchOfferBannerStyles.featureItem}>
+                <Truck
+                  size={18}
+                  className={watchOfferBannerStyles.featureIcon}
+                />
+                <span className={watchOfferBannerStyles.featureText}>
+                  Free Shipping
+                </span>
+              </div>
+
+              <div className={watchOfferBannerStyles.featureItem}>
+                <Shield
+                  size={18}
+                  className={watchOfferBannerStyles.featureIcon}
+                />
+                <span className={watchOfferBannerStyles.featureText}>
+                  2-Years Warranty
+                </span>
+              </div>
+
+              <div className={watchOfferBannerStyles.featureItem}>
+                <Heart
+                  size={18}
+                  className={watchOfferBannerStyles.featureIcon}
+                />
+                <span className={watchOfferBannerStyles.featureText}>
+                  30-Days Returns
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-
+      </div>
     </div>
+  );
+};
 
-   </div>
-  )
-}
-
-export default FashionPage
+export default FashionPage;
