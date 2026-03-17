@@ -1,6 +1,12 @@
 import React from "react";
 import { footerStyles } from "../assets/dummyStyles";
-import { ChevronRight, Clock, Facebook, Instagram, Twitter } from "lucide-react";
+import {
+  ChevronRight,
+  Clock,
+  Facebook,
+  Instagram,
+  Twitter,
+} from "lucide-react";
 
 const Footer = () => {
   return (
@@ -123,7 +129,7 @@ const Footer = () => {
               <ChevronRight className={footerStyles.sectionIcon} />
               Explore
             </h3>
-            <ul className={footerStyles.linkList}>
+            <ul className={footerStyles.linksList}>
               {[
                 { label: "Collections", href: "/watches" },
                 { label: "New Arrivals", href: "/watches" },
@@ -133,8 +139,32 @@ const Footer = () => {
               ].map((item) => (
                 <li key={item.label}>
                   <a href={item.href} className={footerStyles.linkItem}>
-                  <ChevronRight className={footerStyles.linkIcon} />
-                  {item.label}
+                    <ChevronRight className={footerStyles.linkIcon} />
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Customer service */}
+          <div>
+            <h3 className={footerStyles.sectionHeading}>
+              <ChevronRight className={footerStyles.sectionIcon} />
+              Support
+            </h3>
+            <ul className={footerStyles.linksList}>
+              {[
+                "Contact Us",
+                "Shipping & Returns",
+                "Product Care",
+                "Warranty",
+                "FAQ",
+              ].map((item) => (
+                <li>
+                  <a href="#" className={footerStyles.supportLink}>
+                    <ChevronRight className={footerStyles.linkIcon} />
+                    {item}
                   </a>
                 </li>
               ))}
