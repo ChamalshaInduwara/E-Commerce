@@ -159,9 +159,36 @@ const Navbar = () => {
                   }
               </button>
             </div>
-
           </div>
         </div>
+
+        {/* Mobile navigation */}
+         {open && (
+          <div className={navbarStyles.mobileMenu}>
+            <div className={navbarStyles.mobileMenuContainer}>
+              {navItems.map((item) => {
+                const isActive = active === item.href;
+                return (
+                  <Link 
+                  key={item.name} 
+                  to={item.href} 
+                  onClick={()=>handleNavClick(item.href)}
+                  className={`${navbarStyles.mobileNavItemBase} ${
+                    isActive 
+                    ? navbarStyles.mobileNavItemActive 
+                    : navbarStyles.mobileNavItemInactive 
+                  }`}
+                  >
+                   <span className={navbarStyles.mobileNavItemText}>
+                     {item.name}
+                   </span>
+                  </Link>
+                )
+              })}
+
+            </div>
+          </div>
+         )}
       </nav>
     </header>
   );
