@@ -59,8 +59,26 @@ const FashionPage = () => {
                             Luxury Watches
                         </span>{" "}
                         Collection
-
                     </h1>
+
+                    <p className={watchOfferBannerStyles.description}>
+                        Discover our exclusive selection of premium timepieces with special dicounts upto 30% off. Elevate your style with precision craftmenship.
+                    </p>
+
+                    <div className={watchOfferBannerStyles.countdownGrid}>
+                        {Object.entries(timeLeft).map(([unit, value]) => (
+                            <div key={unit} className={watchOfferBannerStyles.countdownItem}>
+                                <div className={watchOfferBannerStyles.countdownValue}>
+                                    {String(value).padStart(2, '0')}
+                                </div>
+                                <div className={watchOfferBannerStyles.countdownLabel}>
+                                    {unit}
+
+                                </div>
+                            </div>
+                        ))}
+
+                    </div>
 
 
             </div>
