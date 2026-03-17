@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { navbarStyles } from "../assets/dummyStyles";
-import { BaggageClaim, Clock, User } from "lucide-react";
+import { BaggageClaim, Clock, Menu, User, X } from "lucide-react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useCart } from "../CartContext";
 
@@ -144,6 +144,21 @@ const Navbar = () => {
               </button>
             )
             }
+
+            {/* Mobile toggle */}
+            <div className={navbarStyles.mobileMenuButton}>
+              <button onClick={() => setOpen(!open)}
+                className={navbarStyles.menuButton}>
+                  {
+                    open ?
+                    (
+                      < X className={navbarStyles.menuIcon}/>
+                    ) : (
+                      <Menu className={navbarStyles.menuIcon} />
+                    )
+                  }
+              </button>
+            </div>
 
           </div>
         </div>
