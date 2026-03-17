@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { navbarStyles } from "../assets/dummyStyles";
-import { BaggageClaim, Clock } from "lucide-react";
+import { BaggageClaim, Clock, User } from "lucide-react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useCart } from "../CartContext";
 
@@ -55,6 +55,9 @@ const Navbar = () => {
     setActive(href);
     setOpen(false);
   };
+
+  const handleLogout = () => {}
+
   return (
     <header className={navbarStyles.header}>
       <nav className={navbarStyles.nav} role="navigation">
@@ -109,7 +112,29 @@ const Navbar = () => {
           <div className={navbarStyles.rightActions}>
             <Link to="/cart" className={navbarStyles.cartLink}>
             <BaggageClaim className={navbarStyles.cartIcon}/>
+            {totalItems >0 &&(
+              <span className={navbarStyles.cartBadge}>
+                {totalItems}
+              </span>
+            )}
             </Link>
+
+            {!loggedIn ? (
+              <Link to='/login' className={navbarStyles.accountLink}>
+                <User className={navbarStyles.accountIcon}/>
+                <span className={navbarStyles.accountText}>
+                  Account
+                </span>
+              </Link>
+            ) : (
+              <button onClick={handleLogout} className={navbarStyles.accountLink}>
+                <User className={navbarStyles.accountIcon}/>
+                <span className={navbarStyles.accountText}>
+                  Logout
+                </span>
+              </button>
+            )
+            }
 
           </div>
         </div>
