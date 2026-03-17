@@ -186,6 +186,28 @@ const Navbar = () => {
                 )
               })}
 
+              <div className={navbarStyles.mobileAccountContainer}>
+                {!loggedIn ? (
+                  <Link to="/login" onClick={() =>{
+                    setOpen(false);
+                    handleNavClick("/login");
+                  }}className={navbarStyles.mobileAccountLink}>
+                    <User className={navbarStyles.mobileAccountIcon}/>
+                    <span>
+                      Account
+                    </span>
+
+                  </Link>
+                ) : (
+                  <button onClick={handleLogout} className={navbarStyles.mobileAccountButton}>
+                    <User className={navbarStyles.mobileAccountIcon}/>
+                    <span>
+                      Logout
+                    </span>
+                  </button>
+                )}
+              </div>
+
             </div>
           </div>
          )}
