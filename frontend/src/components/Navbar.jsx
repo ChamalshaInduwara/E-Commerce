@@ -56,7 +56,16 @@ const Navbar = () => {
     setOpen(false);
   };
 
-  const handleLogout = () => {}
+  const handleLogout = () => {
+    try{
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("authToken");
+    }catch (e) {
+      setLoggedIn(false);
+      setOpen(false);
+      navigate("/");
+    }
+  }
 
   return (
     <header className={navbarStyles.header}>
