@@ -5,6 +5,9 @@ import {
   Clock,
   Facebook,
   Instagram,
+  Mail,
+  MapPin,
+  Phone,
   Twitter,
 } from "lucide-react";
 
@@ -168,6 +171,40 @@ const Footer = () => {
                   </a>
                 </li>
               ))}
+            </ul>
+          </div>
+
+           {/* Contact Info */}
+          <div>
+            <h3 className={footerStyles.sectionHeading}>
+              <ChevronRight className={footerStyles.sectionIcon} />
+              Connect
+            </h3>
+            <ul className={footerStyles.contactList}>
+              <li className={footerStyles.contactItem}>
+                <div className={footerStyles.contactIconContainer}>
+                  <MapPin className={footerStyles.contactIcon} />
+                </div>
+                <span className={footerStyles.contactText}>
+                  123 Bambalapitiya, Colombo, Sri Lanka
+                </span>
+              </li>
+              <li className={footerStyles.contactItem}>
+                <div className={footerStyles.contactIconContainer}>
+                  <Phone className={footerStyles.contactIcon} />
+                </div>
+                <span className={footerStyles.contactText}>
+                  +94 123 456 789
+                </span>
+              </li>
+              <li className={footerStyles.contactItem}>
+                <div className={footerStyles.contactIconContainer}>
+                  <Mail className={footerStyles.contactIcon} />
+                </div>
+                <span className={footerStyles.contactText}>
+                  chronoeliteinfo@gmail.com
+                </span>
+              </li>
             </ul>
           </div>
         </div>
