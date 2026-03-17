@@ -1,6 +1,6 @@
 import React from "react";
 import { footerStyles } from "../assets/dummyStyles";
-import { Clock, Facebook, Instagram, Twitter } from "lucide-react";
+import { ChevronRight, Clock, Facebook, Instagram, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -115,6 +115,30 @@ const Footer = () => {
                 </a>
               ))}
             </div>
+          </div>
+
+          {/* QUICK LINKS */}
+          <div>
+            <h3 className={footerStyles.sectionHeading}>
+              <ChevronRight className={footerStyles.sectionIcon} />
+              Explore
+            </h3>
+            <ul className={footerStyles.linkList}>
+              {[
+                { label: "Collections", href: "/watches" },
+                { label: "New Arrivals", href: "/watches" },
+                { label: "Best Sellers", href: "/watches" },
+                { label: "Limited Editions", href: "/watches" },
+                { label: "Our Story", href: "/watches" },
+              ].map((item) => (
+                <li key={item.label}>
+                  <a href={item.href} className={footerStyles.linkItem}>
+                  <ChevronRight className={footerStyles.linkIcon} />
+                  {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
