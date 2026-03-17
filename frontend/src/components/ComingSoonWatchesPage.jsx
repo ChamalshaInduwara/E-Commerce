@@ -78,6 +78,14 @@ const ComingSoonWatchesPage = () => {
                     }}
                   />
                 </div>
+
+                <figcaption className={comingSoonStyles.figcaption}>
+                    <div className={comingSoonStyles.watchName}>{watch.name}</div>
+                    <div className={comingSoonStyles.price}>
+                        {formatINR(watch.price)}
+                    </div>
+
+                </figcaption>
               </figure>
             ))}
           </div>
