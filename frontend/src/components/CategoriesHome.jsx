@@ -55,15 +55,15 @@ const CategoriesHome = () => {
                                     {brand.tagline}
                                    </p> 
                                 ) : null}
-
                             </div>
 
+                            <span className={categoriesHomeStyles.focusRing} />
                         </div>
                     </Link>
                 ))}
             </div>
-
         </div>
+        <style>{categoriesHomeStyles.styleString}</style>
 
     </section>
   )
