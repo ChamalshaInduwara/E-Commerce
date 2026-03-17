@@ -37,7 +37,24 @@ const CategoriesHome = () => {
                         <div className={categoriesHomeStyles.cardWrapper}>
                             <div className={categoriesHomeStyles.imageContainer}>
                                 <img src={brand.image} alt={brand.name} loading="lazy"
-                                className={categoriesHomeStyles.image} />
+                                className={categoriesHomeStyles.image} 
+                                />
+                            </div>
+
+                            <div className={categoriesHomeStyles.cardContent}>
+                                <h3 className={`${categoriesHomeStyles.cardTitleBase} ${
+                                    hoveredBrand === brand.id ? 
+                                    categoriesHomeStyles.cardTitleHover 
+                                    : categoriesHomeStyles.cardTitleNormal
+                                }`}
+                                >{brand.name}
+                                </h3>
+
+                                {brand.tagline ?(
+                                   <p className={categoriesHomeStyles.cardTagline}>
+                                    {brand.tagline}
+                                   </p> 
+                                ) : null}
 
                             </div>
 
