@@ -121,6 +121,20 @@ const FashionPage = () => {
               </div>
             </div>
           </div>
+
+          {/* Image */}
+          <div className={watchOfferBannerStyles.imageSection}>
+            <div className={watchOfferBannerStyles.imageOverlay}>
+                <img src={F1} alt="img" className={watchOfferBannerStyles.image} />
+
+                <div className={watchOfferBannerStyles.priceTag}>
+                    <div className={watchOfferBannerStyles.oldPrice}>₹899.99</div>
+                    <div className={watchOfferBannerStyles.newPrice}>₹629.99</div>
+                    <div className={watchOfferBannerStyles.discount}>Save 30%</div>
+
+                </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
