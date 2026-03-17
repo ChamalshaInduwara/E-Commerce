@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { navbarStyles } from "../assets/dummyStyles";
 import { BaggageClaim, Clock } from "lucide-react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useCart } from "../CartContext";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -14,6 +15,22 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [active, setActive] = useState(location.pathname || "/");
+
+  const {totalItems} = useCart();
+  const [loggedIn, setLoggedIn] = useState(() =>{
+    try {
+      return(
+        localStorage.getItem("isLoggedIn") === "true" ||
+        !!localStorage.getItem("authToken")
+      );
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(()=>{
+    setActive(location.pathname) || "/";
+  }, [location]);
 
   const handleNavClick = (href) => {
     setActive(href);
