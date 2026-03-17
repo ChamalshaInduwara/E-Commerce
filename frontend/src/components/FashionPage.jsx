@@ -47,6 +47,21 @@ const FashionPage = () => {
                 <div className={watchOfferBannerStyles.decorativeLarge}></div>
                     <div className={watchOfferBannerStyles.decorativeSmall}></div>
 
+                    <div className={watchOfferBannerStyles.offerTag} 
+                    style={watchOfferBannerStyles.playfairFont}
+                    >
+                        Limited Time Offer
+                    </div>
+
+                    <h1 className={watchOfferBannerStyles.heading} style={watchOfferBannerStyles.playfairFont}>
+                        Premium{" "}
+                        <span className={watchOfferBannerStyles.headingAccent}>
+                            Luxury Watches
+                        </span>{" "}
+                        Collection
+
+                    </h1>
+
 
             </div>
 
