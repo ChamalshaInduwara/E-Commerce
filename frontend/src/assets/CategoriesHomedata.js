@@ -1,25 +1,87 @@
-// src/data/brandsData.js
-import Rolex from "../assets/Rolex.png"
-import Omega from "../assets/Omega.png"
-import AudemarsPiguet from "../assets/AudemarsPiguet.png"
-import PatekPhilippe from "../assets/PatekPhilippe.png"
-import Cartier from "../assets/Cartier.png"
-import Brietling from "../assets/Brietling.webp"
-import IWC from "../assets/IWC.png"
-import Hublot from "../assets/HuBLOT.PNG"
-import TagHeuer from "../assets/TagHeuer.png"
-import JaegerLeCoultre from "../assets/JaegerLeCoultre.png"
+// src/assets/CategoriesHomedata.js
+// Use existing files in this folder and correct relative imports (./)
+import AudemarsPiguet from "./AudemarsPiguet.png";
+import Brietling from "./Brietling.webp";
+import Cartier from "./Cartier.png";
+import AP1 from "./AP1.png";
+import AP2 from "./AP2.png";
+import AP3 from "./AP3.png";
+import AP4 from "./AP4.png";
+import H1 from "./H1.png";
+import H2 from "./H2.png";
+import BR1 from "./BR1.png";
+
 const brands = [
-  { id: 1, name: "Rolex", slug: "rolex", image: Rolex, link: "/brands/rolex" },
-  { id: 2, name: "Omega", slug: "omega", image: Omega, link: "/brands/omega" },
-  { id: 3, name: "Patek Philippe", slug: "patek-philippe", image: PatekPhilippe, link: "/brands/patek-philippe" },
-  { id: 4, name: "Audemars Piguet", slug: "audemars-piguet", image: AudemarsPiguet, link: "/brands/audemars-piguet" },
-  { id: 5, name: "Cartier", slug: "cartier", image: Cartier, link: "/brands/cartier" },
-  { id: 6, name: "Breitling", slug: "breitling", image: Brietling, link: "/brands/breitling" },
-  { id: 7, name: "IWC", slug: "iwc", image: IWC, link: "/brands/iwc" },
-  { id: 8, name: "Hublot", slug: "hublot", image: Hublot, link: "/brands/hublot" },
-  { id: 9, name: "Tag Heuer", slug: "tag-heuer", image: TagHeuer, link: "/brands/tag-heuer" },
-  { id: 10, name: "Jaeger-LeCoultre", slug: "jaeger-lecoultre", image:JaegerLeCoultre, link: "/brands/jaeger-lecoultre" },
+  {
+    id: 1,
+    name: "Audemars Piguet",
+    slug: "audemars-piguet",
+    image: AudemarsPiguet,
+    link: "/brands/audemars-piguet",
+  },
+  {
+    id: 2,
+    name: "Breitling",
+    slug: "breitling",
+    image: Brietling,
+    link: "/brands/breitling",
+  },
+  {
+    id: 3,
+    name: "Cartier",
+    slug: "cartier",
+    image: Cartier,
+    link: "/brands/cartier",
+  },
+  {
+    id: 4,
+    name: "Audemars (alt)",
+    slug: "audemars-alt-1",
+    image: AP1,
+    link: "/brands/audemars-piguet",
+  },
+  {
+    id: 5,
+    name: "Audemars (alt)",
+    slug: "audemars-alt-2",
+    image: AP2,
+    link: "/brands/audemars-piguet",
+  },
+  {
+    id: 6,
+    name: "Audemars (alt)",
+    slug: "audemars-alt-3",
+    image: AP3,
+    link: "/brands/audemars-piguet",
+  },
+  {
+    id: 7,
+    name: "Audemars (alt)",
+    slug: "audemars-alt-4",
+    image: AP4,
+    link: "/brands/audemars-piguet",
+  },
+  {
+    id: 8,
+    name: "Hublot (sample)",
+    slug: "hublot-sample-1",
+    image: H1,
+    link: "/brands/hublot",
+  },
+  {
+    id: 9,
+    name: "Hublot (sample)",
+    slug: "hublot-sample-2",
+    image: H2,
+    link: "/brands/hublot",
+  },
+  {
+    id: 10,
+    name: "Brand (sample)",
+    slug: "brand-sample",
+    image: BR1,
+    link: "/brands/sample",
+  },
 ];
 
 export default brands;
