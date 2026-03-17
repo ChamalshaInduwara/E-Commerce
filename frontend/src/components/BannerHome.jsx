@@ -38,6 +38,19 @@ const BannerHome = () => {
             <source src={video} type="video/mp4" />
           </video>
       </div>
+
+      {/* Content */}
+      <div className={bannerHomeStyles.contentContainer}>
+        <div className={bannerHomeStyles.h1Container}>
+          <h1 style={bannerHomeStyles.playfairFont} className={bannerHomeStyles.h1Text}>
+            <span className={bannerHomeStyles.h1SpanGray}>Love you more</span>
+
+            <span className={bannerHomeStyles.h1SpanYellow}>with each tick-tock</span>
+          </h1>
+
+        </div>
+
+      </div>
     </div>
   );
 };
