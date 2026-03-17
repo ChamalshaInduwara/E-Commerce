@@ -4,6 +4,7 @@ import {
   ChevronRight,
   Clock,
   Facebook,
+  Heart,
   Instagram,
   Mail,
   MapPin,
@@ -208,7 +209,29 @@ const Footer = () => {
             </ul>
           </div>
         </div>
+
+        {/* Bottom lines */}
+        <div className={footerStyles.bottomSection}>
+          <p className={footerStyles.copyright}>
+            &copy; {new Date().getFullYear()} ChronoElite. Crafted with{" "}
+            <Heart className={footerStyles.heartIcon} /> in Sri Lanka.
+          </p>
+
+          <div className="flex flex-wrap justify-center gap-2">
+            <p className={footerStyles.designerLink}>
+              Designed by{" "}
+              <a href="#"
+              target="_blank"
+              rel="noopener noreferre"
+              className={footerStyles.linkHover}
+              >
+                Chamalsha Induwara
+              </a>
+            </p>
+          </div>
+        </div>
       </div>
+      <style>{footerStyles.mediaQueries}</style>
     </footer>
   );
 };
