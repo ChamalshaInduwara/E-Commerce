@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import { loginPageStyles } from '../assets/dummyStyles'
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { ArrowLeft, User } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, User, Lock } from 'lucide-react';
 
 const LoginPage = () => {
-    const {email, setEmail} = useState("");
-    const {password, setPassword} = useState("");
-    const {rememberMe, setRememberMe} = useState(false);
-    const {showPassword, setShowPassword} = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     // To submit the data
@@ -118,6 +118,38 @@ const LoginPage = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         required 
                     />
+                    </div>
+                </div>
+
+                <div className={loginPageStyles.formField}>
+                    <label htmlFor="password" className={loginPageStyles.formLabel}>
+                        Password
+                    </label>
+                    <div className={loginPageStyles.inputContainer}>
+                        <div className={loginPageStyles.inputIconContainer}>
+                            <Lock className={loginPageStyles.inputIcon} />
+                        </div>
+                        <input 
+                        type={showPassword ? "text" : "password"} 
+                        id="password"  
+                        className={loginPageStyles.passwordInputBase}
+                        placeholder="Enter your password" 
+                        value={password} 
+                        onChange={(e) => setPassword(e.target.value)}
+                        required 
+                    />
+
+                    <button 
+                       type="button"
+                       className={loginPageStyles.passwordToggle}
+                       onClick={() => setShowPassword(!showPassword)}>
+                        {showPassword ? (
+                            <EyeOff className={loginPageStyles.inputIcon}/>
+                        ):(
+                           <Eye className={loginPageStyles.inputIcon}/> 
+                        )}
+
+                    </button>
                     </div>
                 </div>
             </form>
