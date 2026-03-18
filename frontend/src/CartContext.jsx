@@ -3,53 +3,63 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
+  const [cart, setCart] = useState(() => {
+    const stored = localStorage.getItem("cart");
+    return stored ? JSON.parse(stored) : [];
+  });
 
-    const [cart,setCart] = useState(() => {
-        const stored = localStorage.getItem("cart");
-        return stored ? JSON.parse(stored) : []
+  // To persist data to localStorage
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  // To add items to cart
+  const addItem = (item) => {
+    setCart((prev) => {
+      const existing = prev.find((p) => String(p.id) === String(item.id));
+      if (existing) {
+        return prev.map((p) =>
+          String(p.id) === String(item.id) ? { ...p, qty: p.qty + 1 } : p,
+        );
+      }
+      return [...prev, { ...item, qty: 1 }];
     });
+  };
 
-    // To persist data to localStorage
-    useEffect(() =>{
-        localStorage.setItem("cart", JSON.stringify(cart));
-    }, [cart]);
-
-    // To add items to cart
-    const addItem = (item) => {
-        setCart((prev)=>{
-          const existing = prev.find((p)=> p.id === item.id);
-          if(existing) {
-            return prev.map((p)=>
-              p.id === item.id ? {...p, qty: p.qty + 1} : p);
-          }
-          return [...prev, {...item, qty: 1}];
-        });
-    };
-
-    // To increase value of item in cart
-    const increament =(id) => {
-        setCart((prev) => 
-            prev.map((p) =>(p.id === id ? {...p, qty: p.qty + 1} : p)));
-    };
-
-    // To decrease the value if 0 then remove from cart
-   const decreament =(id) => {
-    setCart(
-        (prev) =>
-            prev.map((p) => (p.id === id ? {...p,qty: p.qty - 1} : p))
-        .filter((p) => p.qty > 0) // Remove the item if qty = 0
+  // To increase value of item in cart
+  const increment = (id) => {
+    setCart((prev) =>
+      prev.map((p) =>
+        String(p.id) === String(id) ? { ...p, qty: p.qty + 1 } : p,
+      ),
     );
-   };  
+  };
 
-   // To remove item immediately
-   const removeItem = (id) => {
-    setCart((prev) => prev.filter((p) => p.id !== id));
-   };
+  // To decrease the value if 0 then remove from cart
+  const decrement = (id) => {
+    setCart(
+      (prev) =>
+        prev
+          .map((p) =>
+            String(p.id) === String(id) ? { ...p, qty: p.qty - 1 } : p,
+          )
+          .filter((p) => p.qty > 0), // Remove the item if qty = 0
+    );
+  };
 
-   // To clear cart
-   const clearCart = () => setCart([]);
+  // Backward-compatible aliases for existing components using old names.
+  const increament = increment;
+  const decreament = decrement;
 
-    // helper: robust price parser
+  // To remove item immediately
+  const removeItem = (id) => {
+    setCart((prev) => prev.filter((p) => String(p.id) !== String(id)));
+  };
+
+  // To clear cart
+  const clearCart = () => setCart([]);
+
+  // helper: robust price parser
   const parsePrice = (price) => {
     if (typeof price === "number" && isFinite(price)) return price;
     if (!price) return 0;
@@ -69,27 +79,30 @@ export function CartProvider({ children }) {
   }; // Check the number is right correct for sum or not
 
   // Totals
-    const totalItems = cart.reduce((sum, p) => sum + (p.qty || 0), 0);
-    const totalPrice = cart.reduce((sum, p) => sum + (p.qty || 0) * parsePrice(p.price), 
-    0
-);
+  const totalItems = cart.reduce((sum, p) => sum + (p.qty || 0), 0);
+  const totalPrice = cart.reduce(
+    (sum, p) => sum + (p.qty || 0) * parsePrice(p.price),
+    0,
+  );
 
-    return (
-        <CartContext.Provider
-        value={{
-            cart,
-            addItem,
-            increament,
-            decreament,
-            removeItem,
-            clearCart,
-            totalItems,
-            totalPrice,   
-        }}
-        >
-            {children}
-        </CartContext.Provider>
-    );
+  return (
+    <CartContext.Provider
+      value={{
+        cart,
+        addItem,
+        increment,
+        decrement,
+        increament,
+        decreament,
+        removeItem,
+        clearCart,
+        totalItems,
+        totalPrice,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 }
 
 export const useCart = () => useContext(CartContext);
