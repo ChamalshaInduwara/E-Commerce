@@ -25,6 +25,9 @@ const BrandPage = () => {
               <span className={brandPageStyles.backText}>Back</span>
             </button>
           </div>
+          <div className={brandPageStyles.titleContainer}>
+            <h1 className={brandPageStyles.title}>{brandName} Collections</h1>
+          </div>
         </div>
       </div>
     </div>
