@@ -102,6 +102,37 @@ const SignUpPage = () => {
                                 required
                             />
                         </div>
+
+                          <label className={signUpStyles.label}>Email</label>
+                        <div className={signUpStyles.inputContainer}>
+                            <div className={signUpStyles.inputIconContainer}>
+                                <User className={signUpStyles.inputIcon}/>
+                            </div>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="your@example.com"
+                                className={signUpStyles.inputField}
+                                required
+                            />
+                        </div>
+                        <div>
+                              <label className={signUpStyles.label}>Password</label>
+                        <div className={signUpStyles.inputContainer}>
+                            <div className={signUpStyles.inputIconContainer}>
+                                <User className={signUpStyles.inputIcon}/>
+                            </div>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Create a password"
+                                className={signUpStyles.inputField}
+                                required
+                            />
+                        </div>
+                        </div>
                     </form>
                 </div>
             </div>
