@@ -1,15 +1,53 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { brandPageStyles } from "../assets/dummyStyles";
 import { useNavigate, useParams } from "react-router-dom";
-import watchesData from "../assets/CategoriesHomedata";
+import watchesData from "../assets/Categoriesdata";
 import { useCart } from "../CartContext";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Minus, Plus } from "lucide-react";
 
 const BrandPage = () => {
   const { brandName } = useParams();
   const navigate = useNavigate();
-  const bramdWatches = watchesData[brandName?.toLocaleLowerCase()] || [];
-  const { addItem } = useCart();
+  const brandWatches = watchesData[brandName?.toLowerCase()] || [];
+  const { addItem, cart, increament, decreament } = useCart();
+
+  // To scroll to top when this page loads.
+  useEffect(() => {
+    // ensure instant jump to top (no smooth scrolling)
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+      // also reset potential scroll on html/body for some browsers
+      try {
+        document.documentElement && (document.documentElement.scrollTop = 0);
+        document.body && (document.body.scrollTop = 0);
+      } catch (e) {
+        /* ignore */
+      }
+    }
+  }, []);
+
+  const findInCart = (id) => cart.find((p) => p.id === id);
+
+  // If no watches found
+  if (!brandWatches.length) {
+    return (
+      <div className={brandPageStyles.notFoundContainer}>
+        <div className={brandPageStyles.notFoundCard}>
+          <h2 className={brandPageStyles.notFoundTitle}>No watches found</h2>
+          <p className={brandPageStyles.notFoundText}>
+            This brand has no watches listed in our collection yet.
+          </p>
+          <button
+            onClick={() => navigate(-1)}
+            className={brandPageStyles.goBackButton}
+          >
+            <ArrowLeft size={20} />
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={brandPageStyles.mainContainer}>
       <div className="max-w-7xl mx-auto relative">
@@ -28,6 +66,68 @@ const BrandPage = () => {
           <div className={brandPageStyles.titleContainer}>
             <h1 className={brandPageStyles.title}>{brandName} Collections</h1>
           </div>
+        </div>
+
+        {/* Watches grid */}
+        <div className={brandPageStyles.grid}>
+          {brandWatches.map((watch) => {
+            const inCart = findInCart(watch.id);
+            return (
+              <div key={watch.id} className={brandPageStyles.card}>
+                <div className={brandPageStyles.imageContainer}>
+                  <img
+                    src={watch.image}
+                    alt={watch.name}
+                    className={brandPageStyles.image}
+                  />
+                </div>
+
+                {/* Watch details */}
+                <div className={brandPageStyles.detailsContainer}>
+                  <h2 className={brandPageStyles.watchName}>{watch.name}</h2>
+                  <p className={brandPageStyles.watchDesc}>{watch.desc}</p>
+
+                  <div className={brandPageStyles.priceAndControls}>
+                    <p className={brandPageStyles.price}>{watch.price}</p>
+
+                    {/* If items in cart then show qty else show Add btn*/}
+                    {inCart ? (
+                      <div className={brandPageStyles.quantityContainer}>
+                        <button
+                          onClick={() => decreament(watch.id)}
+                          className={brandPageStyles.quantityButton}
+                        >
+                          <Minus size={16} />
+                        </button>
+                        <div className={brandPageStyles.quantityCount}>
+                          {inCart.qty}
+                        </div>
+                        <button
+                          onClick={() => increament(watch.id)}
+                          className={brandPageStyles.quantityButton}
+                        >
+                          <Plus size={16} />
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => 
+                          addItem({
+                            id: watch.id,
+                            name: watch.name,
+                            price: watch.price,
+                            img: watch.image,
+                        })}
+                        className={brandPageStyles.addButton}
+                      >
+                        <span>Add</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
