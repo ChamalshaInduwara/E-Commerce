@@ -153,11 +153,20 @@ const SignUpPage = () => {
                                     className={signUpStyles.checkboxInput}
                                 />
                                 <span className={signUpStyles.checkboxText}>Remember me</span>
-
                             </label>
-
                         </div>
+                        <button type="submit" className={signUpStyles.submitButton}>
+                            Sign Up
+                        </button>
                     </form>
+                    <div className={signUpStyles.bottomContainer}>
+                        <span className={signUpStyles.bottomText}>
+                            Already have an account?{" "}
+                        </span>
+                        <a href="/login" className={signUpStyles.loginLink}>
+                            Log in
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
