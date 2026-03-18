@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { signUpStyles } from '../assets/dummyStyles';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { ArrowLeft, User } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, User } from 'lucide-react';
 
 const SignUpPage = () => {
     const [name, setName] = useState("");
@@ -131,6 +131,16 @@ const SignUpPage = () => {
                                 className={signUpStyles.inputField}
                                 required
                             />
+                            <button 
+                                type="button" 
+                                onClick={() => setShowPassword(!showPassword)}
+                                className={signUpStyles.passwordToggleButton}>
+                                {showPassword ? (
+                                    <EyeOff className={signUpStyles.passwordToggleIcon}/>
+                                ): (
+                                    <Eye className={signUpStyles.passwordToggleIcon}/>
+                                )}
+                            </button>
                         </div>
                         </div>
                     </form>
