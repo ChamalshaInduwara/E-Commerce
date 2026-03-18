@@ -171,11 +171,23 @@ const LoginPage = () => {
                                 *
                             </span>
                         </label>
-
                     </div>
-
                 </div>
+                <button type="submit" className={loginPageStyles.submitButton}>
+                    Login
+                </button>
             </form>
+
+            <div className={loginPageStyles.signupContainer}>
+                <span className={loginPageStyles.signupText}>
+                    Don't have an account?{" "}
+                    </span>
+                    <a href="/signup" className={loginPageStyles.signupLink}>
+                        Sign up
+                    </a>
+                
+
+            </div>
             </div>
         </div>
         
