@@ -118,10 +118,14 @@ const WatchPage = () => {
                     </button>
                   )}
                 </div>
-             
-
-                    </div>
                 </div>
+
+                <div className={watchPageStyles.productInfo}>
+                  <h3 className={watchPageStyles.productName}>{w.name}</h3>
+                  <p className={watchPageStyles.productDescription}>{w.desc}</p>
+                  <div className={watchPageStyles.productPrice}>{w.price}</div>
+                </div>
+              </div>
             );
         })};
         
