@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { signUpStyles } from '../assets/dummyStyles';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, User } from 'lucide-react';
 
 const SignUpPage = () => {
     const [name, setName] = useState("");
@@ -75,10 +75,38 @@ const SignUpPage = () => {
         <button onClick={() => navigate("/login")} className={signUpStyles.backButton}>
             <ArrowLeft className={signUpStyles.backIcon}/>
             <span className={signUpStyles.backText}>Back to Login</span>
-
         </button>
 
-    </div>
+        <div className={signUpStyles.formContainer}>
+            <div className={signUpStyles.card}>
+                <div className={signUpStyles.decorativeCircle}/>
+                    <h1 className={signUpStyles.title} style={signUpStyles.pageFontStyle}>
+                        Create Account
+                    </h1>
+                                <p className={signUpStyles.subtitle}>
+                        Simple Signup to get you started - light & clean. 
+                    </p>
+
+                    <form onSubmit={handleSubmit} className={signUpStyles.form}>
+                        <label className={signUpStyles.label}>Full Name</label>
+                        <div className={signUpStyles.inputContainer}>
+                            <div className={signUpStyles.inputIconContainer}>
+                                <User className={signUpStyles.inputIcon}/>
+                            </div>
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                placeholder="Enter Full Name"
+                                className={signUpStyles.inputField}
+                                required
+                            />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
   )
 }
 
