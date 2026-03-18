@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { loginPageStyles } from '../assets/dummyStyles'
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, User } from 'lucide-react';
 
 const LoginPage = () => {
     const {email, setEmail} = useState("");
@@ -99,6 +99,28 @@ const LoginPage = () => {
             <p className={loginPageStyles.cardSubtitle}>
                 Sign in to your account
             </p>
+
+            <form onSubmit={handleSubmit}>
+                <div className={loginPageStyles.formField}>
+                    <label htmlFor="email" className={loginPageStyles.formLabel}>
+                        Email
+                    </label>
+                    <div className={loginPageStyles.inputContainer}>
+                        <div className={loginPageStyles.inputIconContainer}>
+                            <User className={loginPageStyles.inputIcon} />
+                        </div>
+                        <input 
+                        type="email" 
+                        id="email"  
+                        className={loginPageStyles.inputBase}
+                        placeholder="Enter your email" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)}
+                        required 
+                    />
+                    </div>
+                </div>
+            </form>
             </div>
         </div>
         
