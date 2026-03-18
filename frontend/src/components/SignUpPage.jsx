@@ -143,6 +143,20 @@ const SignUpPage = () => {
                             </button>
                         </div>
                         </div>
+                        <div className={signUpStyles.checkboxContainer}>
+                            <label className={signUpStyles.checkboxLabel}>
+                                <input 
+                                    type="checkbox" 
+                                    checked={rememberMe}
+                                    onChange={() => setRememberMe(!rememberMe)}
+                                    required
+                                    className={signUpStyles.checkboxInput}
+                                />
+                                <span className={signUpStyles.checkboxText}>Remember me</span>
+
+                            </label>
+
+                        </div>
                     </form>
                 </div>
             </div>
