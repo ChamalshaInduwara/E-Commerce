@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useState, useMemo } from "react";
 import { watchPageStyles } from "../assets/dummyStyles";
 import { WATCHES, FILTERS as RAW_FILTERS } from "../assets/dummywdata";
 import { useCart } from "../CartContext";
@@ -66,21 +66,18 @@ const WatchPage = () => {
 
       <div className={watchPageStyles.grid}>
         {filtered.map((w) => {
-          const sid = String(w.id ?? w._id ?? w.sku ?? w.name);
-          const qty = getQty(sid);
+            const sid = String(w.id ?? w._id ?? w.sku ?? w.name);
+            const qty = getQty(sid);
 
-          return (
-            <div key={sid} className={watchPageStyles.card}>
-              <div className={watchPageStyles.imageContainer}>
-                <img
-                  src={w.img}
-                  alt={w.name}
-                  className={watchPageStyles.image}
-                  draggable={false}
-                />
+            return(
+                <div key={sid} className={watchPageStyles.card}>
+                    <div className={watchPageStyles.imageContainer}>
+                        <img src={w.img} alt={w.name} className={watchPageStyles.image}
+                        draggable= {false} 
+                    />
 
-                {/* For controls */}
-                <div className={watchPageStyles.cartControlsContainer}>
+                    {/* For controls */}
+                     <div className={watchPageStyles.cartControlsContainer}>
                   {qty > 0 ? (
                     // show minus, qty, plus
                     <div className={watchPageStyles.cartQuantityControls}>
@@ -121,22 +118,16 @@ const WatchPage = () => {
                     </button>
                   )}
                 </div>
-              </div>
-              <div className={watchPageStyles.productInfo}>
-                <h3 className={watchPageStyles.productName}>
-                  {w.name}
-                </h3>
-                <p className={watchPageStyles.productDescription}>
-                  {w.desc}
-                </p>
-                <div className={watchPageStyles.productPrice}>{w.price}</div>
-              </div>
-            </div>
-          );
-        })}
+             
+
+                    </div>
+                </div>
+            );
+        })};
+        
       </div>
     </div>
   );
 };
 
-export default WatchPage;
+export default WatchPage
