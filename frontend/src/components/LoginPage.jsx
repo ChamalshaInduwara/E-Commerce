@@ -152,6 +152,29 @@ const LoginPage = () => {
                     </button>
                     </div>
                 </div>
+
+                <div className={loginPageStyles.rememberMeContainer}>
+                    <div className={loginPageStyles.checkboxContainer}>
+                        <input 
+                            type="checkbox" 
+                            id="rememberMe" 
+                            className={loginPageStyles.checkbox}
+                            checked={rememberMe}
+                            onChange={() => setRememberMe(!rememberMe)}
+                            required
+                         />
+                    </div>
+                    <div className={loginPageStyles.checkboxLabelContainer}>
+                        <label htmlFor="rememberMe" className={loginPageStyles.checkboxLabel}>
+                            Remember me{" "}
+                            <span className={loginPageStyles.requiredStar}>
+                                *
+                            </span>
+                        </label>
+
+                    </div>
+
+                </div>
             </form>
             </div>
         </div>
