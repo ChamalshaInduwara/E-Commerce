@@ -63,6 +63,23 @@ const WatchPage = () => {
           })}
         </div>
       </div>
+
+      <div className={watchPageStyles.grid}>
+        {filtered.map((w) => {
+            const sid = String(w.id ?? w._id ?? w.sku ?? w.name);
+            const qty = getQty(sid);
+
+            return(
+                <div key={sid} className={watchPageStyles.card}>
+                    <div className={watchPageStyles.imageContainer}>
+                        <img src={w.img} alt={w.name} className={watchPageStyles.image}
+                        draggable= {false} />
+                    </div>
+                </div>
+            );
+        })};
+        
+      </div>
     </div>
   );
 };
