@@ -13,38 +13,58 @@ const FILTERS = RAW_FILTERS?.length
       { key: "women", label: "Women", icon: Users },
     ];
 
-
 const WatchPage = () => {
-    const [filter, setFilter] = useState("all");
-    const {cart, addItem, increment, decrement, removeItem} = useCart();
+  const [filter, setFilter] = useState("all");
+  const { cart, addItem, increment, decrement, removeItem } = useCart();
 
-    // For filter
-    const filtered = useMemo(() =>
-    WATCHES.filter((w) => (filter === "all" ? true : w.gender === filter)),
-    [filter]
-    );
+  // For filter
+  const filtered = useMemo(
+    () =>
+      WATCHES.filter((w) => (filter === "all" ? true : w.gender === filter)),
+    [filter],
+  );
 
-    const getQty = (id) => {
-        const it = cart.find((c) => String(c.id) === String(id));
-        return it ? Number(it.qty || 0) : 0;
-    };
+  const getQty = (id) => {
+    const it = cart.find((c) => String(c.id) === String(id));
+    return it ? Number(it.qty || 0) : 0;
+  };
 
   return (
     <div className={watchPageStyles.container}>
-        <div className={watchPageStyles.headerContainer}>
-            <div>
-                <h1 className={watchPageStyles.headerTitle}>
-                    Timepieces{" "}
-                    <span className={watchPageStyles.titleAccent}>Curated</span>
-                </h1>
-                <p className={watchPageStyles.headerDescription}>
-                    A handpicked selection - clean presentation, zero borders. Choose a filter to refine.
-
-                </p>
-            </div>
+      <div className={watchPageStyles.headerContainer}>
+        <div>
+          <h1 className={watchPageStyles.headerTitle}>
+            Timepieces{" "}
+            <span className={watchPageStyles.titleAccent}>Curated</span>
+          </h1>
+          <p className={watchPageStyles.headerDescription}>
+            A handpicked selection - clean presentation, zero borders. Choose a
+            filter to refine.
+          </p>
         </div>
+        <div className={watchPageStyles.filterContainer}>
+          {FILTERS.map((f) => {
+            const Icon = f.icon;
+            const active = filter === f.key;
+            return (
+              <button
+                key={f.key}
+                onClick={() => setFilter(f.key)}
+                className={`${watchPageStyles.filterButtonBase} ${
+                  active
+                    ? watchPageStyles.filterButtonActive
+                    : watchPageStyles.filterButtonInactive
+                }`}
+              >
+                <Icon className={watchPageStyles.filterIcon} />
+                {f.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
     </div>
-  )
+  );
 };
 
 export default WatchPage;
