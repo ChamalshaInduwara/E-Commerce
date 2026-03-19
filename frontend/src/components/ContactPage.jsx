@@ -140,7 +140,7 @@ function CreativeCard({
 }
 
 const ContactPage = () => {
-  const WHATSAPP_NUMBER = "94871234567"; // Replace with your WhatsApp number in international format without '+' or dashes
+  const WHATSAPP_NUMBER = "94761234567"; // Replace with your WhatsApp number in international format without '+' or dashes
 
   const initialForm = {
     name: "",
