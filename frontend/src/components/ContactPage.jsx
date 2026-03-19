@@ -1,6 +1,15 @@
-import React, { useState } from 'react'
-import { contactPageStyles } from '../assets/dummyStyles';
-import { AlertCircle, Clock, Mail, Phone, User } from 'lucide-react';
+import React, { useState } from "react";
+import { contactPageStyles } from "../assets/dummyStyles";
+import {
+  AlertCircle,
+  Clock,
+  IndianRupee,
+  Mail,
+  Phone,
+  Send,
+  ShoppingCart,
+  User,
+} from "lucide-react";
 // Input with an icon on left
 function InputWithIcon({
   icon,
@@ -129,7 +138,7 @@ function CreativeCard({
 }
 
 const ContactPage = () => {
-     const WHATSAPP_NUMBER = "94871234567"; // Replace with your WhatsApp number in international format without '+' or dashes
+  const WHATSAPP_NUMBER = "94871234567"; // Replace with your WhatsApp number in international format without '+' or dashes
 
   const initialForm = {
     name: "",
@@ -199,7 +208,7 @@ const ContactPage = () => {
       `*Message:* ${form.message}`;
 
     const url = `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(
-      message
+      message,
     )}`;
 
     showToast("Opening WhatsApp...", "success", 900);
@@ -213,14 +222,9 @@ const ContactPage = () => {
   }
 
   function handleChange(ev) {
-    const { name, value } = e.target;
-    setForm((s) => ({ 
-        ...s, [name]: value 
-    }));
-    setErrors((s) => ({
-        ...s, 
-        [name]: undefined
-    }));
+    const { name, value } = ev.target;
+    setForm((s) => ({ ...s, [name]: value }));
+    setErrors((s) => ({ ...s, [name]: undefined }));
   }
 
   // To clear the form after submit
@@ -230,81 +234,132 @@ const ContactPage = () => {
   }
 
   return (
-    
     <div className={contactPageStyles.pageContainer}>
-        <div className={contactPageStyles.innerContainer}>
-            <div className={contactPageStyles.pageHeader}>
-                <h1 className={contactPageStyles.pageTitle} 
-                style={{fontFamily: "Dancing Script, cursive",
-                }}
-                >
-                    Get in Touch
-                </h1>
-                <p style={{fontFamily: "'Playfair Display', serif"
-                }}
-                className={contactPageStyles.pageSubtitle}>
-                    Looking for watch, quaote or consultation? Fill the form - we'll reply on WhatsApp with details.
-
-                </p>
-            </div>
-
-            <div className={contactPageStyles.mainGrid}>
-                <div className={contactPageStyles.leftColumn}>
-                    <div className={contactPageStyles.formCard}>
-                        <form onSubmit={handleSubmit} className={contactPageStyles.form}>
-                            <div className={contactPageStyles.inputGrid}>
-                                <InputWithIcon 
-                                icon={<User className="w-5 h-5 text-black" />}
-                                label="Your Name" 
-                                name="name" 
-                                value={form.name} 
-                                onChange={handleChange} 
-                                placeholder="FullName"
-                                error={errors.name} 
-                                required
-                                />
-
-                                  <InputWithIcon 
-                                icon={<Mail className="w-5 h-5 text-black" />}
-                                label="Email" 
-                                name="email" 
-                                value={form.email} 
-                                onChange={handleChange} 
-                                placeholder="your@example.com"
-                                error={errors.email} 
-                                required
-                                />
-                            </div>
-                            <div className={contactPageStyles.inputGrid}>
-                                  <InputWithIcon 
-                                icon={<Phone className="w-5 h-5 text-black" />}
-                                label="Phone" 
-                                name="phone" 
-                                value={form.phone} 
-                                onChange={handleChange} 
-                                placeholder="+94 xxx xxx xxx"
-                                error={errors.phone} 
-                                required
-                                />
-
-                                <SelectWithIcon 
-                                icon={<Clock className="w-5 h-5 text-black" />}
-                                label="Preffered Contact" 
-                                name="contactMethod" 
-                                value={form.contactMethod} 
-                                onChange={handleChange} 
-                                placeholder={["WhatsApp", "Phone Call", "Email"]}
-                                error={errors.contactMethod} 
-                                required
-                                />
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+      <div className={contactPageStyles.innerContainer}>
+        <div className={contactPageStyles.pageHeader}>
+          <h1
+            className={contactPageStyles.pageTitle}
+            style={{ fontFamily: "Dancing Script, cursive" }}
+          >
+            Get in Touch
+          </h1>
+          <p
+            style={{ fontFamily: "'Playfair Display', serif" }}
+            className={contactPageStyles.pageSubtitle}
+          >
+            Looking for watch, quaote or consultation? Fill the form - we'll
+            reply on WhatsApp with details.
+          </p>
         </div>
-    </div>
-  )
-}
 
-export default ContactPage
+        <div className={contactPageStyles.mainGrid}>
+          <div className={contactPageStyles.leftColumn}>
+            <div className={contactPageStyles.formCard}>
+              <form onSubmit={handleSubmit} className={contactPageStyles.form}>
+                <div className={contactPageStyles.inputGrid}>
+                  <InputWithIcon
+                    icon={<User className="w-5 h-5 text-black" />}
+                    label="Your Name"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    placeholder="FullName"
+                    error={errors.name}
+                    required
+                  />
+
+                  <InputWithIcon
+                    icon={<Mail className="w-5 h-5 text-black" />}
+                    label="Email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    placeholder="your@example.com"
+                    error={errors.email}
+                    required
+                  />
+                </div>
+                <div className={contactPageStyles.inputGrid}>
+                  <InputWithIcon
+                    icon={<Phone className="w-5 h-5 text-black" />}
+                    label="Phone"
+                    name="phone"
+                    value={form.phone}
+                    onChange={handleChange}
+                    placeholder="+94 xxx xxx xxx"
+                    error={errors.phone}
+                    required
+                  />
+
+                  <SelectWithIcon
+                    icon={<Clock className="w-5 h-5 text-black" />}
+                    label="Preffered Contact"
+                    name="contactMethod"
+                    value={form.contactMethod}
+                    onChange={handleChange}
+                    options={["WhatsApp", "Phone Call", "Email"]}
+                    error={errors.contactMethod}
+                    required
+                  />
+                </div>
+                <div>
+                  <SelectWithIcon
+                    icon={<ShoppingCart className="w-5 h-5 text-black" />}
+                    label="Product of interest"
+                    name="product"
+                    value={form.product}
+                    onChange={handleChange}
+                    options={products}
+                    error={errors.product}
+                    required
+                  />
+                </div>
+
+                <div className={contactPageStyles.inputGrid}>
+                  <InputWithIcon
+                    icon={<IndianRupee className="w-5 h-5 text-green-600" />}
+                    label="Estimated Budget"
+                    name="budget"
+                    value={form.budget}
+                    onChange={handleChange}
+                    placeholder="e.g. ₹1,50,000 - ₹3,00,000"
+                    error={errors.budget}
+                    required
+                  />
+                  <div>
+                    <label className={contactPageStyles.inputLabel}>
+                        Short Message{" "}
+                        <span className={contactPageStyles.requiredStar}>*</span>
+                    </label>
+                    <textarea name="message" value={form.message} onChange={handleChange}
+                    rows={4} className={`${contactPageStyles.textareaContainer}${
+                        errors.message ? contactPageStyles.inputError : contactPageStyles.inputNormal
+                    }`} placeholder="Tell us what you are looking for..."
+                    required
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div className={contactPageStyles.buttonsContainer}>
+                    <button type="submit" disabled={sending} className={contactPageStyles.submitButton}>
+                        <Send className="w-4 h-4"/>
+                        <span className="font-medium">Send via WhatsApp</span>
+                    </button>
+
+                    <button type="button" onClick={() => {
+                        clearForm();
+                        showToast("Form Cleared", "info");
+                    }} className={contactPageStyles.clearButton}>
+                        Clear
+                    </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ContactPage;
