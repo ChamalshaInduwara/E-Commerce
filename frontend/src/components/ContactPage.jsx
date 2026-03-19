@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { contactPageStyles } from "../assets/dummyStyles";
 import {
   AlertCircle,
+  Check,
   Clock,
   IndianRupee,
   Mail,
+  MapPin,
   Phone,
   Send,
   ShoppingCart,
@@ -356,8 +358,52 @@ const ContactPage = () => {
               </form>
             </div>
           </div>
+          
+          {/* Right side */}
+          <div className={contactPageStyles.rightColumn}>
+            <div className={contactPageStyles.rightColumnGrid}>
+                    <CreativeCard title="Showroom Visits"
+                    subtitle="Private viewings by applicant" 
+                    icon={<MapPin className="w-6 h-6 text-black"/>}
+                    ctaText="Book Visit"
+                ctaOnClick={() => {
+                  const msg = `Hi, I'd like to book a private showroom visit.`;
+                  window.open(
+                    `https://api.whatsapp.com/send?phone=${WHATSAPP_NUMBER}&text=${encodeURIComponent(
+                      msg
+                    )}`,
+                    "_blank"
+                  );
+                }}
+                accent="amber"
+                    />
+            </div>
+          </div>
         </div>
       </div>
+
+       {/* toast */}
+      {toast && (
+        <div
+          className={`${contactPageStyles.toastBase} ${
+            toast.kind === "error"
+              ? contactPageStyles.toastError
+              : contactPageStyles.toastSuccess
+          }`}
+        >
+          {toast.kind === "success" ? (
+            <Check className="w-4 h-4" />
+          ) : (
+            <AlertCircle className="w-4 h-4" />
+          )}
+          <span>{toast.text}</span>
+        </div>
+      )}
+
+      {/* fonts */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Playfair+Display:wght@400;600;700&display=swap');
+      `}</style>
     </div>
   );
 };
