@@ -2,7 +2,9 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import { connectDB } from "./config/db.js";
+import path from "path"
 import userRouter from "./routes/userRoute.js";
+import watchRouter from "./routes/watchRoute.js";
 
 const app = express();
 const port = 4000;
@@ -17,6 +19,8 @@ connectDB();
 
 // ROUTES
 app.use("/api/auth", userRouter);
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+app.use("/api/watches", watchRouter);
 
 app.get("/", (req, res) => {
   res.send("API WORKING");
