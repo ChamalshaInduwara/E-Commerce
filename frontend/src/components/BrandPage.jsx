@@ -9,7 +9,7 @@ const BrandPage = () => {
   const { brandName } = useParams();
   const navigate = useNavigate();
   const brandWatches = watchesData[brandName?.toLowerCase()] || [];
-  const { addItem, cart, increament, decreament } = useCart();
+  const { addItem, cart, increment, decrement } = useCart();
 
   // To scroll to top when this page loads.
   useEffect(() => {
@@ -94,7 +94,7 @@ const BrandPage = () => {
                     {inCart ? (
                       <div className={brandPageStyles.quantityContainer}>
                         <button
-                          onClick={() => decreament(watch.id)}
+                          onClick={() => decrement(watch.id)}
                           className={brandPageStyles.quantityButton}
                         >
                           <Minus size={16} />
@@ -103,7 +103,7 @@ const BrandPage = () => {
                           {inCart.qty}
                         </div>
                         <button
-                          onClick={() => increament(watch.id)}
+                          onClick={() => increment(watch.id)}
                           className={brandPageStyles.quantityButton}
                         >
                           <Plus size={16} />
@@ -111,13 +111,14 @@ const BrandPage = () => {
                       </div>
                     ) : (
                       <button
-                        onClick={() => 
+                        onClick={() =>
                           addItem({
                             id: watch.id,
                             name: watch.name,
                             price: watch.price,
                             img: watch.image,
-                        })}
+                          })
+                        }
                         className={brandPageStyles.addButton}
                       >
                         <span>Add</span>
