@@ -1,24 +1,18 @@
-import Order from "../models/orderModel";
+import Order from "../models/orderModel.js";
 import Stripe from "stripe";
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY,{
-    apiVersion: "2024-06-01"
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2024-06-01",
 });
 
 // To create an order
 export const createOrder = async (req, res, next) => {
   try {
-    const {
-      name,
-      email,
-      phoneNumber,
-      address,
-      notes,
-    } =req.body;
+    const { name, email, phoneNumber, address, notes } = req.body;
 
     let { items, paymentMethod } = req.body;
-   
+
     if (!name || !email || !phoneNumber || !address) {
       return res.status(400).json({
         success: false,
@@ -26,13 +20,13 @@ export const createOrder = async (req, res, next) => {
       });
     }
 
-      const normalizedItems = items.map((it, idx) => {
+    const normalizedItems = items.map((it, idx) => {
       const productId = it.productId ?? it.id ?? it._id ?? null;
       const name = String(it.name ?? "");
       const img = it.img ?? null;
       const price = Number(it.price);
       const qty = Number(it.qty ?? it.quantity ?? 1);
-      const description = String(it.description)
+      const description = String(it.description);
 
       return {
         productId: String(productId),
@@ -40,18 +34,24 @@ export const createOrder = async (req, res, next) => {
         img,
         price,
         qty,
-        description
+        description,
       };
     });
 
-    const normalizedPaymentMethod = paymentMethod === "Cash on Delivery" ? "Cash on Delivery" : "Online";
+    const normalizedPaymentMethod =
+      paymentMethod === "Cash on Delivery" ? "Cash on Delivery" : "Online";
 
     // Yo total the sum
-    const subtotal = normalizedItems.reduce((s, it) => s + it.price * it.qty, 0);
-    const taxRate = 0.08; 
+    const subtotal = normalizedItems.reduce(
+      (s, it) => s + it.price * it.qty,
+      0,
+    );
+    const taxRate = 0.08;
     const taxAmount = parseFloat((subtotal * taxRate).toFixed(2));
     const shippingCharge = 0;
-    const finalAmount = parseFloat((subtotal + taxAmount + shippingCharge).toFixed(2));
+    const finalAmount = parseFloat(
+      (subtotal + taxAmount + shippingCharge).toFixed(2),
+    );
 
     const orderId = `ORD-${uuidv4()}`;
     // Saved in DB like this
@@ -68,13 +68,11 @@ export const createOrder = async (req, res, next) => {
       taxAmount,
       finalAmount,
       paymentMethod,
-      paymentStatus: "Unpaid", 
+      paymentStatus: "Unpaid",
       notes: notes ?? undefined,
-      
     };
 
     if (normalizedPaymentMethod === "Online") {
-    
       const line_items = normalizedItems.map((it) => ({
         price_data: {
           currency: "inr",
@@ -84,7 +82,7 @@ export const createOrder = async (req, res, next) => {
         quantity: it.qty,
       }));
 
-       if (taxAmount > 0) {
+      if (taxAmount > 0) {
         line_items.push({
           price_data: {
             currency: "inr",
@@ -131,7 +129,9 @@ export const createOrder = async (req, res, next) => {
     });
   } catch (err) {
     if (err?.status) {
-      return res.status(err.status).json({ success: false, message: err.message });
+      return res
+        .status(err.status)
+        .json({ success: false, message: err.message });
     }
     next(err);
   }
@@ -139,59 +139,62 @@ export const createOrder = async (req, res, next) => {
 
 // To confirm the payment done or not
 export const confirmPayment = async (req, res, next) => {
-    try{
-        const { session_id } = req.query;
-        if(!session_id) return res.status(400).json({
-            success: false, 
-            message: "Session_id is req"
-        });
+  try {
+    const { session_id } = req.query;
+    if (!session_id)
+      return res.status(400).json({
+        success: false,
+        message: "Session_id is req",
+      });
 
-        if(!stripe) return res.status(500).json({
-            success: false,
-            message: "Stripe not configured"
-        });
+    if (!stripe)
+      return res.status(500).json({
+        success: false,
+        message: "Stripe not configured",
+      });
 
-        const session = await stripe.checkout.sessions.retrieve(session_id);
-        if(!session) return res.status(400).json({
-            success: false,
-            message: "Invalid session"
-        });
+    const session = await stripe.checkout.sessions.retrieve(session_id);
+    if (!session)
+      return res.status(400).json({
+        success: false,
+        message: "Invalid session",
+      });
 
-        if(session.payment_status !== "paid"){ 
-            return res.status(400).json({
-                success: false,
-                message: "Payment not completed"
-        });
+    if (session.payment_status !== "paid") {
+      return res.status(400).json({
+        success: false,
+        message: "Payment not completed",
+      });
     }
 
     const order = await Order.findOneAndUpdate(
-        { sessionId: session_id },
-        { paymentStatus: "Paid", paymentIntentId: session.payment_intent },
-        { new: true }
+      { sessionId: session_id },
+      { paymentStatus: "Paid", paymentIntentId: session.payment_intent },
+      { new: true },
     );
-    if(!order) return res.status(404).json({
+    if (!order)
+      return res.status(404).json({
         success: false,
-        message: "Order not found"
-    });
+        message: "Order not found",
+      });
     return res.json({
-        success: true,
-        order
+      success: true,
+      order,
     });
-    }
-    catch (err) {
-        next(err);
-    }
+  } catch (err) {
+    next(err);
+  }
 };
 
 // To get orders
 export const getOrders = async (req, res, next) => {
-    try{
-        const {search = "", status} = req.query;
-        const filter = {};
-        if(status) filter.orderStatus = status;
+  try {
+    const { search = "", status } = req.query;
+    const filter = {};
+    if (status) filter.orderStatus = status;
 
-        // Acts as a filter
-         if (search) {
+    // Acts as a filter
+    if (search) {
       const regex = new RegExp(search, "i");
       filter.$or = [
         { orderId: regex },
@@ -209,7 +212,7 @@ export const getOrders = async (req, res, next) => {
         if (o.paymentStatus === "Unpaid") acc.pendingPayment += 1;
         return acc;
       },
-      { totalOrders: 0, pendingPayment: 0 }
+      { totalOrders: 0, pendingPayment: 0 },
     );
 
     return res.json({
@@ -225,81 +228,80 @@ export const getOrders = async (req, res, next) => {
       },
       orders,
     });
-
-    }
-    catch (err) {
-        next(err);
-    }
-}
+  } catch (err) {
+    next(err);
+  }
+};
 
 // To get users orders
 export const getUserOrders = async (req, res, next) => {
-    try{
-        if(!req.user) return res.status(401).json({
-            success: false,
-            message: "Unauthorized"
-        });
-        const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 }).lean();
-        return res.status(200).json({
-            success: true,
-            orders
-        });
-    }
-    catch (err) {
-        console.error("Get userOrder error:", err);
-        return res.status(500).json({
-            success: false,
-            message: "Server error"
-        });
-    }
-}
+  try {
+    if (!req.user)
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    const orders = await Order.find({ user: req.user._id })
+      .sort({ createdAt: -1 })
+      .lean();
+    return res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (err) {
+    console.error("Get userOrder error:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
 
 // To update the order
 export const updateOrderStatus = async (req, res, next) => {
-    try{
-        const {orderStatus} = req.body;
-        if(orderStatus === undefined){
-             return res.status(400).json({
-            success: false,
-            message: "orderStatus is required"
-        });
+  try {
+    const { orderStatus } = req.body;
+    if (orderStatus === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: "orderStatus is required",
+      });
     }
     const updated = await Order.findByIdAndUpdate(
-        req.params.id,
-        { orderStatus },
-        { new: true }
+      req.params.id,
+      { orderStatus },
+      { new: true },
     );
-    if(!updated){ 
-        return res.status(404).json({
+    if (!updated) {
+      return res.status(404).json({
         success: false,
-        message: "Order not found"
-    });
+        message: "Order not found",
+      });
     }
     return res.json({
-        success: true,
-        order: updated
+      success: true,
+      order: updated,
     });
-}
-    catch (err) {
-        next(err);
-    }
-}
+  } catch (err) {
+    next(err);
+  }
+};
 
 // To delete an order
 export const deleteOrder = async (req, res, next) => {
-    try{
-        const deleted = await Order.findByIdAndDelete(req.params.id).lean();
-        if(!deleted) return res.status(404).json({
-            success: false,
-            message: "Order not found"
-        });
+  try {
+    const deleted = await Order.findByIdAndDelete(req.params.id).lean();
+    if (!deleted)
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
 
-        return res.json({
-            success: true,
-            message: "Order deleted successfully"
-        });
-    }
-    catch (err) {
-        next(err);
-    }
-}
+    return res.json({
+      success: true,
+      message: "Order deleted successfully",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
