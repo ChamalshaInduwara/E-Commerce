@@ -181,8 +181,72 @@ const AddPage = () => {
                           <Trash2 className="w-4 h-4 text-slate-600"/> Remove
                         </button>
                       )}
+                      <p className={classes.helperText}>
+                        Recomended: JPG/PNG. Max size: 5MB
+                      </p>
                   </div>
                 </div>
+              </div>
+
+              <div>
+                <div className={classes.formLabelSimple}>
+                      Watch Name <span className={classes.requiredStar}>*</span>
+                </div>
+                <input value={name} onChange={(e) => setName(e.target.value)}
+                placeholder="e.g. Classic Silver Chrono" 
+                className={inputClass}
+                required
+                disabled={loading}
+                />
+              </div>
+
+              <div>
+                <div className={classes.formLabelSimple}>
+                      Category <span className={classes.requiredStar}>*</span>
+                </div>
+                <select value={category} onChange={(e) => setCategory(e.target.value)} 
+                className={inputClass} 
+                disabled={loading}
+                >
+                  <option value="men">Men</option>
+                  <option value="women">Women</option>
+                  <option value="brand">Brand</option>
+                </select>
+              </div>
+
+              {category === "brand" && (
+                <div>
+                  <div className={classes.formLabelSimple}>
+                    Brand <span className={classes.requiredStar}>*</span>
+                  </div>
+                  <select 
+                  value={brandName} 
+                  onChange={(e) => setBrandName(e.target.value)}
+                  className={inputClass} 
+                  disabled={loading}
+                  >
+                    <option value="">Select Brand</option>
+                    {BRANDS.map((b) => (
+                      <option value={b} key={b}>
+                        {b}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              <div>
+                <div className={classes.formLabelSimple}>
+                      Description <span className={classes.requiredStar}>*</span>
+                </div>
+                <textarea value={description} 
+                onChange={(e) => setDescription(e.target.value)}
+                rows={4}
+                placeholder="Short descrition about the watch"
+                className={`${inputClass} resize-none`}
+                required 
+                disabled={loading}
+                ></textarea>
               </div>
             </form>
         </div>
