@@ -7,7 +7,7 @@ import {
 } from "../assets/dummyStyles";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import { Upload, Image, PlusCircle, Trash2 } from "lucide-react";
+import { Upload, Image, PlusCircle, Trash2, Plus } from "lucide-react";
 
 const AddPage = () => {
   const [imageFile, setImageFile] = useState(null);
@@ -247,6 +247,30 @@ const AddPage = () => {
                 required 
                 disabled={loading}
                 ></textarea>
+              </div>
+              <div>
+                <div className={classes.formLabelSimple}>
+                      Price (INR) <span className={classes.requiredStar}>*</span>
+                </div>
+                <div className={classes.priceInputContainer}>
+                  <input value={price} onChange={(e) => setPrice(e.target.value)}
+                    placeholder="e.g. 199.99"
+                    inputMode="decimal"
+                    className={classes.priceInput(theme)}
+                    required
+                    disabled={loading}
+                  />
+                </div>
+              </div>
+              <div className=" mt-3">
+                <button type="submit" 
+                disabled={loading}
+                className={classes.submitButton(theme, loading)}>
+                  <PlusCircle className="w-5 h-5"/>
+                  <span className="text-sm">
+                    {loading ? "Adding..." : "Add Watch"}
+                  </span>
+                </button>
               </div>
             </form>
         </div>
