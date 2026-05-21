@@ -7,7 +7,7 @@ import {
 } from "../assets/dummyStyles";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import { Upload, Image } from "lucide-react";
+import { Upload, Image, PlusCircle, Trash2 } from "lucide-react";
 
 const AddPage = () => {
   const [imageFile, setImageFile] = useState(null);
@@ -164,6 +164,23 @@ const AddPage = () => {
                           <div className="text-xs">No image</div>
                       </div>
                     )}
+                  </div>
+
+                  <div className=" flex-1">
+                      <label htmlFor="watch-image" className={classes.uploadButton}>
+                        <PlusCircle className=" w-4 h-4 text-slate-700"/>
+                        <span className="text-slate-700 text-sm">Choose Image
+                        </span>
+                        <input id="watch-image" ref={inputRef} type="file"
+                        accept="image/*" onChange={handleImageChange} className=" hidden"/>
+                      </label>
+
+                      {imagePreviewUrl &&(
+                        <button type="button" onClick={clearFileInput}
+                        className={classes.removeButton}>
+                          <Trash2 className="w-4 h-4 text-slate-600"/> Remove
+                        </button>
+                      )}
                   </div>
                 </div>
               </div>
