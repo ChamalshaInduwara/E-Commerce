@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { navbarStyles } from "../assets/dummyStyles";
-import { Clock } from "lucide-react";
+import { CalendarCheck, Clock, List, PlusCircle } from "lucide-react";
 
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
+  const NavItem = ({ to, Icon, children }) => (
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `${navbarStyles.navItemBase}` +
+        (isActive ? navbarStyles.navItemActive : navbarStyles.navItemInactive)
+      }
+      onClick={() => setOpen(false)}
+    >
+      {Icon && <Icon className={navbarStyles.navItemIcon} />}
+      <span>{children}</span>
+    </NavLink>
+  );
   return (
     <header className={navbarStyles.header}>
       <div className={navbarStyles.container}>
@@ -23,6 +37,20 @@ const Navbar = () => {
               ChronoElite
             </NavLink>
           </div>
+          {/* navigations */}
+          <nav className={navbarStyles.navContainer}>
+            <div className={navbarStyles.navItemsContainer}>
+              <NavItem to="/" Icon={PlusCircle}>
+                Add
+              </NavItem>
+              <NavItem to="/list" Icon={List}>
+                List
+              </NavItem>
+              <NavItem to="/booking" Icon={CalendarCheck}>
+                Manage Booking
+              </NavItem>
+            </div>
+          </nav>
         </div>
       </div>
     </header>
