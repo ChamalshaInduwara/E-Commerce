@@ -7,6 +7,7 @@ import {
 } from "../assets/dummyStyles";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { Upload, Image } from "lucide-react";
 
 const AddPage = () => {
   const [imageFile, setImageFile] = useState(null);
@@ -141,6 +142,32 @@ const AddPage = () => {
                  />
             ))}
           </div>
+        </div>
+
+        <div className={classes.gridContainer}>
+            <form onSubmit={handleSubmit} className={classes.formContainer(theme)}>
+              <div>
+                <div className={classes.formLabel}>
+                  <Upload className="w-4 h-4"/>Watch Image{" "}
+                  <span className={classes.requiredStar}>*</span>
+                </div>
+                <div className=" flex items-center gap4">
+                  <div className={`${classes.imagePreviewContainer(theme)}${
+                    imagePreviewUrl ? "" : classes.imagePreviewEmpty
+                  }`}>
+                    {imagePreviewUrl ? (
+                      <img src={imagePreviewUrl} alt="preview"
+                      className="w-full h-full object-cover" />
+                    ) : (
+                      <div className={classes.imagePlaceholder}>
+                          <Image className="w-8 h-8"/>
+                          <div className="text-xs">No image</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </form>
         </div>
       </div>
     </div>
