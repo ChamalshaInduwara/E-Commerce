@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { navbarStyles } from "../assets/dummyStyles";
-import { CalendarCheck, Clock, List, PlusCircle } from "lucide-react";
+import { CalendarCheck, Clock, List, Menu, PlusCircle, X } from "lucide-react";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -51,7 +51,38 @@ const Navbar = () => {
               </NavItem>
             </div>
           </nav>
+
+          {/* for mobile toggle */}
+          <div className={navbarStyles.rightContainer}>
+            <button
+              className={navbarStyles.mobileMenuButton}
+              onClick={() => setOpen(!open)}
+            >
+              {open ? (
+                <X className={navbarStyles.mobileMenuIcon} />
+              ) : (
+                <Menu className={navbarStyles.mobileMenuIcon} />
+              )}
+            </button>
+          </div>
         </div>
+
+        {/* mobile navigation */}
+        {open && (
+          <div className={navbarStyles.mobileDropdown}>
+            <div className={navbarStyles.mobileNavItemsContainer}>
+              <NavItem to="/" Icon={PlusCircle}>
+                Add
+              </NavItem>
+              <NavItem to="/list" Icon={List}>
+                List
+              </NavItem>
+              <NavItem to="/booking" Icon={CalendarCheck}>
+                Manage Booking
+              </NavItem>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
