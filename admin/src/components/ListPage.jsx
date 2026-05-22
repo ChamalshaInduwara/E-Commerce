@@ -150,6 +150,10 @@ const ListPage = () => {
             </article>
           ))}
         </section>
+
+        {!loading && (!watches || watches.length === 0) && (
+            <p className={listPageStyles.noItems}>No Watches found.</p>
+        )}
       </div>
     </div>
   );
