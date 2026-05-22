@@ -273,6 +273,27 @@ const AddPage = () => {
                 </button>
               </div>
             </form>
+
+             <div className={classes.previewContent}>
+                  <h3 className={classes.previewName}>
+                    {name || "Watch name"}
+                  </h3>
+                  <div className={classes.previewCategory}>
+                    <strong>Category:</strong> {prettyCategory(category)}
+                    {category === "brand" && brandName && (
+                      <span className="ml-2 text-slate-500">({brandName})</span>
+                    )}
+                  </div>
+                  <p className={classes.previewDescription}>
+                    {description || "Watch description will appear here."}
+                  </p>
+                  <div className={classes.previewPriceContainer}>
+                    <div className={classes.previewPriceLabel}>Price</div>
+                    <div className={classes.previewPriceValue}>
+                      {price ? `₹${Number(price).toFixed(2)}` : "₹0.00"}
+                    </div>
+                  </div>
+                </div>
         </div>
       </div>
     </div>
