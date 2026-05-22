@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { listPageStyles } from "../assets/dummyStyles";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { Trash2 } from "lucide-react";
 
 const ListPage = () => {
   const [watches, setWatches] = useState([]);
@@ -126,6 +127,25 @@ const ListPage = () => {
                 <p className={listPageStyles.description}>
                     {watch.desc}
                 </p>
+
+                <div className="flex items-center gap-2 text-sm mt-2">
+                    <span className={listPageStyles.category}>
+                        {getCategoryLabel(watch)}
+                    </span>
+                </div>
+
+                <div className="flex items-center justify-between mt-3">
+                    <div className={listPageStyles.price}>
+                        ₹{watch.price}
+                    </div>
+
+                    <button onClick={()=> handleDelete(watch.id)}
+                        className={listPageStyles.deleteButton}
+                        disabled={deletingId === watch.id}>
+                            <Trash2 size={16} />
+                            {deletingId === watch.id ? "Deleting..." : "Delete"}
+                    </button>
+                </div>
               </div>
             </article>
           ))}
