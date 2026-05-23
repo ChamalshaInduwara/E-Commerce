@@ -7,7 +7,7 @@ import {
   paymentBadgeBaseStyles,
 } from "../assets/dummyStyles";
 import axios from "axios";
-import { Calendar, ChevronDown, CreditCard, Search } from "lucide-react";
+import { Calendar, ChevronDown, CreditCard, Search, User } from "lucide-react";
 
 const API_BASE = "http://localhost:4000/api";
 
@@ -167,16 +167,19 @@ const ManageBooking = () => {
             <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
               <div className={bookingStyles.searchContainer}>
                 <Search className={bookingStyles.searchIcon} />
-                <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-                className={bookingStyles.searchInput} 
-                placeholder="Search bookings..." />
+                <input
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className={bookingStyles.searchInput}
+                  placeholder="Search bookings..."
+                />
               </div>
 
               <div className={bookingStyles.filterSelectContainer}>
-                <select 
-                value={statusFilter} 
-                onChange={(e) => setStatusFilter(e.target.value)} 
-                className={bookingStyles.filterSelect}
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className={bookingStyles.filterSelect}
                 >
                   <option value="All">All Status</option>
                   <option value="Pending">Pending</option>
@@ -188,6 +191,59 @@ const ManageBooking = () => {
               </div>
             </div>
           </div>
+        </div>
+        <div className={bookingStyles.bookingsContainer}>
+          {loading && (
+            <div className={bookingStyles.loadingText}>Loading bookings...</div>
+          )}
+          {error && <div className={bookingStyles.errorText}>{error}</div>}
+
+          {filtered.length === 0 ? (
+            <div className={bookingStyles.noBookingsContainer}>
+              <Calendar className={bookingStyles.noBookingsIcon} />
+              <p className={bookingStyles.noBookingsText}>
+                No bookings found..{" "}
+              </p>
+            </div>
+          ) : (
+            filtered.map((b) => {
+              const isCancelled =
+                String(b.status ?? "").toLowerCase() === "cancelled";
+              return (
+                <div key={b.id} className={bookingStyles.bookingCard}>
+                  <div className={bookingStyles.bookingHeader}>
+                    <div className={bookingStyles.customerContainer}>
+                      <div className={bookingStyles.customerAvatar}>
+                        <User className={bookingStyles.customerIcon} />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className={bookingStyles.customerName}>
+                          {b.customerName}
+                        </h3>
+                        <p className={bookingStyles.customerIcon}>
+                          {b.email}{" "}
+                          <span className={bookingStyles.customerSeparator}>
+                            &dot;
+                          </span>
+                          <span className={bookingStyles.orderId}>
+                            Order:{" "}
+                            <span className={bookingStyles.orderIdValue}>
+                              {b.orderId}
+                            </span>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className={bookingStyles.actionsContainer}>
+                      <StatusBadge status={b.status} />
+                      <PaymentBadge status={b.paymentStatus} />
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
       </div>
     </div>
