@@ -7,7 +7,7 @@ import {
   paymentBadgeBaseStyles,
 } from "../assets/dummyStyles";
 import axios from "axios";
-import { Calendar, CreditCard, Search } from "lucide-react";
+import { Calendar, ChevronDown, CreditCard, Search } from "lucide-react";
 
 const API_BASE = "http://localhost:4000/api";
 
@@ -170,6 +170,21 @@ const ManageBooking = () => {
                 <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
                 className={bookingStyles.searchInput} 
                 placeholder="Search bookings..." />
+              </div>
+
+              <div className={bookingStyles.filterSelectContainer}>
+                <select 
+                value={statusFilter} 
+                onChange={(e) => setStatusFilter(e.target.value)} 
+                className={bookingStyles.filterSelect}
+                >
+                  <option value="All">All Status</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Confirmed">Confirmed</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+                <ChevronDown className={bookingStyles.filterSelectIcon} />
               </div>
             </div>
           </div>
