@@ -7,7 +7,18 @@ import {
   paymentBadgeBaseStyles,
 } from "../assets/dummyStyles";
 import axios from "axios";
-import { Calendar, ChevronDown, CreditCard, Search, User } from "lucide-react";
+import {
+  Calendar,
+  ChevronDown,
+  CreditCard,
+  MapPin,
+  MessageSquare,
+  Phone,
+  Search,
+  Trash2,
+  User,
+  Watch,
+} from "lucide-react";
 
 const API_BASE = "http://localhost:4000/api";
 
@@ -238,8 +249,208 @@ const ManageBooking = () => {
                     <div className={bookingStyles.actionsContainer}>
                       <StatusBadge status={b.status} />
                       <PaymentBadge status={b.paymentStatus} />
+
+                      <div className={bookingStyles.actionButtonGroup}>
+                        <select
+                          value={b.status}
+                          onChange={(e) => updateStatus(b.id, e.target.value)}
+                          disabled={isCancelled}
+                          title={
+                            isCancelled
+                              ? "Cannot update status of a cancelled booking"
+                              : "Change booking status"
+                          }
+                          className={`${bookingStyles.statusSelect} ${
+                            isCancelled
+                              ? bookingStyles.statusSelectDisabled
+                              : bookingStyles.statusSelectEnabled
+                          }`}
+                        >
+                          <option value="Pending">Pending</option>
+                          <option value="Confirmed">Confirmed</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Cancelled">Cancelled</option>
+                        </select>
+
+                        <button
+                          onClick={() => deleteBooking(b.id)}
+                          className={bookingStyles.deleteButton}
+                          title="Delete booking"
+                        >
+                          <Trash2 className={bookingStyles.deleteIcon} />
+                        </button>
+
+                        <button
+                          onClick={() => toggle(b.id)}
+                          className={bookingStyles.toggleButton}
+                        >
+                          {expanded.includes(b.id)
+                            ? "Hide Details"
+                            : "View Details"}
+                        </button>
+                      </div>
                     </div>
                   </div>
+
+                  {/* to show expanded details */}
+                  {expanded.includes(b.id) && (
+                    <div className={bookingStyles.expandedContainer}>
+                      <div>
+                        <h4 className={bookingStyles.sectionTitle}>
+                          <User className={bookingStyles.sectionIcon} />{" "}
+                          Customer Details
+                        </h4>
+                        <InfoRow
+                          icon={<Phone className="w-4 h-4" />}
+                          label="Phone"
+                          value={b.phone}
+                        />
+                        <InfoRow
+                          icon={<MapPin className="w-4 h-4" />}
+                          label="Address"
+                          value={b.address}
+                        />
+                        <InfoRow
+                          icon={<Calendar className="w-4 h-4" />}
+                          label="Booking Date"
+                          value={b.date}
+                        />
+                        <div className={bookingStyles.paymentBadgeContainer}>
+                          <div
+                            className={bookingStyles.paymentBadgeIconContainer}
+                          >
+                            <CreditCard
+                              className={bookingStyles.paymentBadgeIcon}
+                            />
+                          </div>
+                          <div className="text-sm">
+                            <div className={bookingStyles.paymentBadgeLabel}>
+                              Payment Status
+                            </div>
+                            <div className={bookingStyles.infoRowValue}>
+                              <PaymentBadge status={b.paymentStatus} />
+                            </div>
+                          </div>
+                        </div>
+                        <InfoRow
+                          icon={<Calendar className="w-4 h-4" />}
+                          label="Order ID"
+                          value={b.orderId}
+                        />
+                        {b.notes && (
+                          <div className="flex items-start gap-3">
+                            <div className={bookingStyles.infoRowIcon}>
+                              <MessageSquare
+                                className={bookingStyles.sectionIcon}
+                              />
+                            </div>
+                            <div className="text-sm flex-1 break-words">
+                              <div className={bookingStyles.infoRowLabel}>
+                                Notes
+                              </div>
+                              <div className={bookingStyles.infoRowValue}>
+                                {b.notes}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      <div>
+                        <h4 className={bookingStyles.sectionTitle}>
+                          <Watch className={bookingStyles.sectionIcon} /> Watch
+                          Details
+                        </h4>
+                        <div className={bookingStyles.watchContainer}>
+                          {b.watches.map((w, i) => (
+                            <div key={i} className={bookingStyles.watchItem}>
+                              <div
+                                className={bookingStyles.watchImageContainer}
+                              >
+                                <div
+                                  className={bookingStyles.watchImageWrapper}
+                                >
+                                  {w.img ? (
+                                    <img
+                                      src={w.img}
+                                      alt={w.name}
+                                      className={bookingStyles.watchImage}
+                                    />
+                                  ) : (
+                                    <div className={bookingStyles.watchNoImage}>
+                                      No image
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              <div className={bookingStyles.watchDetails}>
+                                <h5 className={bookingStyles.watchTitle}>
+                                  {w.name}
+                                </h5>
+                                <div
+                                  className={bookingStyles.watchInfoContainer}
+                                >
+                                  <div>
+                                    <span
+                                      className={bookingStyles.watchInfoLabel}
+                                    >
+                                      Price:
+                                    </span>
+                                    ₹{Number(w.price).toLocaleString()}
+                                  </div>
+                                  <div>
+                                    <span
+                                      className={bookingStyles.watchInfoLabel}
+                                    >
+                                      Qty:
+                                    </span>
+                                    {w.qty}
+                                  </div>
+                                  <div>
+                                    <span
+                                      className={bookingStyles.watchInfoLabel}
+                                    >
+                                      ProductId:
+                                    </span>
+                                    {w.productId ?? "—"}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Subtotal also totalAmount */}
+                        <div className={bookingStyles.priceSummary}>
+                          <div>
+                            <span className={bookingStyles.priceRow}>
+                              Subtotal:{" "}
+                            </span>
+                            ₹{Number(b.totalAmount).toLocaleString()}
+                          </div>
+                          <div>
+                            <span className={bookingStyles.priceRow}>
+                              Tax:{" "}
+                            </span>
+                            ₹{Number(b.taxAmount).toLocaleString()}
+                          </div>
+                          <div>
+                            <span className={bookingStyles.priceRow}>
+                              Shipping:{" "}
+                            </span>
+                            ₹{Number(b.shippingCharge).toLocaleString()}
+                          </div>
+                          <div className={bookingStyles.finalPrice}>
+                            <span className={bookingStyles.priceRow}>
+                              Final:{" "}
+                            </span>
+                            ₹{Number(b.finalAmount).toLocaleString()}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })
@@ -249,5 +460,15 @@ const ManageBooking = () => {
     </div>
   );
 };
+
+const InfoRow = ({ icon, label, value }) => (
+  <div className={bookingStyles.infoRowContainer}>
+    <div className={bookingStyles.infoRowIcon}>{icon}</div>
+    <div className="text-sm">
+      <div className={bookingStyles.infoRowLabel}>{label}</div>
+      <div className={bookingStyles.infoRowValue}>{value}</div>
+    </div>
+  </div>
+);
 
 export default ManageBooking;
