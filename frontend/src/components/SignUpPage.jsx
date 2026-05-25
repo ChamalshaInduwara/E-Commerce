@@ -11,9 +11,12 @@ const SignUpPage = () => {
     const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const [submitting, setSubmitting] = useState(false);
+
+    const API_BASE = "http://localhost:4000";
 
 // To submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     // enforce all fields
@@ -46,28 +49,76 @@ const SignUpPage = () => {
       });
       return;
     }
+    setSubmitting(true);
 
-    // === NEW: log all form data ===
-    console.log("Signup form submitted — form data:", {
-      name,
-      email,
-      password, // ⚠️ for dev only, don't log raw passwords in production
-      rememberMe,
-      showPassword,
-      timestamp: new Date().toISOString(),
-    });
+    try {
+        const resp = await axios.post(
+            `${API_BASE}/api/auth/register`, 
+            {
+                name: name.trim(),
+                email: email.trim().toLowerCase(),
+                password,
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json"},
+            }
+        );
 
-    // success
+        const data = resp.data;
+        if(data && data.token) {
+            if(rememberMe) {
+                localStorage.setItem("authToken", data.token);
+                localStorage.setItem("user", JSON.stringify(data.user ?? {}));
+            } else {
+                sessionStorage.setItem("authToken", data.token);
+                sessionStorage.setItem("user", JSON.stringify(data.user ?? {}));
+            }
+             // success
     toast.success("Signup successful", {
       position: "top-right",
       autoClose: 1200,
       theme: "light",
     });
-
     setTimeout(() => {
       navigate("/login");
     }, 1250);
-  };
+        } else {
+            toast.error(data.message || "Unexpected error from server", {
+                position: "top-right",
+                autoClose: 4000,
+                theme: "light",
+              });
+        }
+    } catch (err) {
+      // Prefer server-provided message if available
+      const serverMsg = err?.response?.data?.message;
+      const status = err?.response?.status;
+
+      if (status === 409) {
+        toast.error(serverMsg || "User already exists.", {
+          position: "top-right",
+          autoClose: 4000,
+          theme: "light",
+        });
+      } else if (serverMsg) {
+        toast.error(serverMsg, {
+          position: "top-right",
+          autoClose: 4000,
+          theme: "light",
+        });
+      } else {
+        toast.error("Server error. Please try again later.", {
+          position: "top-right",
+          autoClose: 4000,
+          theme: "light",
+        });
+      }
+      console.error("Signup error:", err?.response ?? err);
+    } finally {
+        setSubmitting(false);
+    } 
+    };
 
   return (
     <div className={signUpStyles.pageContainer} style={signUpStyles.pageFontStyle}>
@@ -100,6 +151,7 @@ const SignUpPage = () => {
                                 placeholder="Enter Full Name"
                                 className={signUpStyles.inputField}
                                 required
+                                disabled={submitting}
                             />
                         </div>
 
@@ -115,6 +167,7 @@ const SignUpPage = () => {
                                 placeholder="your@example.com"
                                 className={signUpStyles.inputField}
                                 required
+                                disabled={submitting}
                             />
                         </div>
                         <div>
@@ -130,6 +183,7 @@ const SignUpPage = () => {
                                 placeholder="Create a password"
                                 className={signUpStyles.inputField}
                                 required
+                                disabled={submitting}
                             />
                             <button 
                                 type="button" 
@@ -151,12 +205,15 @@ const SignUpPage = () => {
                                     onChange={() => setRememberMe(!rememberMe)}
                                     required
                                     className={signUpStyles.checkboxInput}
+                                    disabled={submitting}
                                 />
                                 <span className={signUpStyles.checkboxText}>Remember me</span>
                             </label>
                         </div>
-                        <button type="submit" className={signUpStyles.submitButton}>
-                            Sign Up
+                        <button type="submit" className={`${signUpStyles.submitButton} ${
+                            submitting ? signUpStyles.submitButtonDisabled : ""
+                            }`} disabled={submitting}>
+                            {submitting ? "Creating Account..." : "Sign Up"}
                         </button>
                     </form>
                     <div className={signUpStyles.bottomContainer}>
