@@ -3,6 +3,7 @@ import { loginPageStyles } from '../assets/dummyStyles'
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { ArrowLeft, Eye, EyeOff, User, Lock } from 'lucide-react';
+import axios from 'axios';
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -11,11 +12,12 @@ const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const [submitting, setSubmitting] = useState(false);
+    const {loginCart} = useCart();
     
     const API_BASE = "http://localhost:4000";
 
     // To submit the data
-     const handleSubmit = (e) => {
+     const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic form validation
@@ -37,35 +39,42 @@ const LoginPage = () => {
       return;
     }
 
-    // === NEW: log all form data to the console ===
-    // NOTE: Logging passwords is fine for development/testing only. Remove before production.
-    console.log("Login form submitted — form data:", {
-      email,
-      password,
-      rememberMe,
-      showPassword,
-      timestamp: new Date().toISOString(),
-    });
+    setSubmitting(true);
 
-    // Simulate a successful login: store auth info in localStorage so Navbar can detect it
-    try {
-      // create a simple fake token for demo (replace with real token from server in production)
-      const fakeToken = btoa(`${email}:${Date.now()}`);
-
-      // Persist token & login flag (Navbar checks these keys)
-      localStorage.setItem("authToken", fakeToken);
-      localStorage.setItem("isLoggedIn", "true");
-
-      try {
-        window.dispatchEvent(
-          new CustomEvent("authChanged", { detail: { loggedIn: true } })
-        );
-      } catch (err) {
-        // ignore if browser doesn't allow CustomEvent construction in this environment
-      }
-    } catch (err) {
-      // ignore storage errors
+    try{
+        const resp = await axios.post( `${API_BASE}/api/auth/login`, {
+        email: email.trim().toLowerCase(),
+        password,
+    },{
+        headers: {"Content-Type" : "application/json"},
     }
+);
+const data = resp.data;
+console.log(data);
+
+if(data && data.token){
+    if (rememberMe) {
+          localStorage.setItem("authToken", data.token);
+          localStorage.setItem("user", JSON.stringify(data.user ?? {}));
+          localStorage.setItem("isLoggedIn", "true");
+        } else {
+          sessionStorage.setItem("authToken", data.token);
+          sessionStorage.setItem("user", JSON.stringify(data.user ?? {}));
+          sessionStorage.setItem("isLoggedIn", "true");
+        }
+
+        try {
+            window.dispatchEvent(
+                new CustomEvent("authChanged", {detail: {loggedIn: true} })
+            );
+        } catch (error) {
+
+        }
+    
+}
+}catch (error) {
+
+}
 
     // Show success toast
     toast.success("Login successful!", {
