@@ -10,6 +10,9 @@ const LoginPage = () => {
     const [rememberMe, setRememberMe] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+    const [submitting, setSubmitting] = useState(false);
+    
+    const API_BASE = "http://localhost:4000";
 
     // To submit the data
      const handleSubmit = (e) => {
