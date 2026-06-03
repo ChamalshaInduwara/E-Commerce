@@ -9,6 +9,7 @@ import Contact from "./pages/Contact";
 import { ArrowUp } from "lucide-react";
 import Cart from "./pages/Cart";
 import Orders from "./pages/Orders";
+import VerifyPaymentPage from "../VerifyPaymentPage";
 
 // To scroll to top for each page
 function ScrollToTopOnRouteChange() {
@@ -104,6 +105,8 @@ const App = () => {
         </ProtectedRoute>
       } 
       />
+      <Route path="/orders/success" element={<VerifyPaymentPage/>} />
+      <Route path="/orders/cancel" element={<VerifyPaymentPage/>} />
        </Routes>
       {/* The button */}
       <button
