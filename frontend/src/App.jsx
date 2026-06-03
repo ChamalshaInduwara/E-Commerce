@@ -8,6 +8,7 @@ import Watch from "./pages/Watch";
 import Contact from "./pages/Contact";
 import { ArrowUp } from "lucide-react";
 import Cart from "./pages/Cart";
+import Orders from "./pages/Orders";
 
 // To scroll to top for each page
 function ScrollToTopOnRouteChange() {
@@ -94,6 +95,12 @@ const App = () => {
 
         <Route path="/cart" element={<ProtectedRoute>
           <Cart />
+        </ProtectedRoute>
+      } 
+      />
+
+      <Route path="/my-orders" element={<ProtectedRoute>
+          <Orders />
         </ProtectedRoute>
       } 
       />
