@@ -231,7 +231,7 @@ const ManageBooking = () => {
                         <h3 className={bookingStyles.customerName}>
                           {b.customerName}
                         </h3>
-                        <p className={bookingStyles.customerIcon}>
+                        <p className={bookingStyles.customerInfo}>
                           {b.email}{" "}
                           <span className={bookingStyles.customerSeparator}>
                             &dot;
